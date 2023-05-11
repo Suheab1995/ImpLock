@@ -1,0 +1,21 @@
+name: Main
+on: 
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Create lock
+      uses: abatilo/github-action-locks@v1
+      with:
+        timeout: "30"
+        table: "github-action-locks"
+        key: "LockID"
+        name: "${{ github.workflow }}" # Use the workflow name, in this case "Main" as the lock identifier
+    - run: |
+        echo "Do something that takes a long time here"
+        sleep 5
